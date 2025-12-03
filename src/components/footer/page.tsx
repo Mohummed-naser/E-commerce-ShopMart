@@ -34,7 +34,7 @@ export default function Footer() {
             </div>
 
             <div className="w-full md:w-1/3 lg:w-1/5 md:me-10">
-              <h5>CUSTOMER SERVICE</h5>
+              <h5 className="mb-5">CUSTOMER SERVICE</h5>
               <ul className="flex flex-col gap-2">
                 <Link href={"/products"}>Contact Us</Link>
                 <Link href={"/products"}>Help Center</Link>
@@ -45,7 +45,7 @@ export default function Footer() {
             </div>
 
             <div className="w-full md:w-1/3 lg:w-1/5">
-              <h2>ABOUT</h2>
+              <h2 className="mb-5">ABOUT</h2>
               <ul className="flex flex-col gap-2">
                 <Link href={"/products"}>About shopmart</Link>
                 <Link href={"/products"}>Careers</Link>
@@ -56,7 +56,7 @@ export default function Footer() {
             </div>
 
             <div className="w-full md:w-1/3 lg:w-1/5">
-              <h2>POLICIES</h2>
+              <h2 className="mb-5">POLICIES</h2>
               <ul className="flex flex-col gap-2">
                 <Link href={"/products"}>Privacy Policy</Link>
                 <Link href={"/products"}>Terms of Service</Link>

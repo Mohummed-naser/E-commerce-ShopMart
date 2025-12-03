@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import MyIconStar from "@/components/myIconStar/myIconStar";
 import Link from "next/link";
-import AddToCardt from "@/components/addToCardt/addToCardt";
+import AddToCart from "@/components/addToCart/addToCardt";
 export default async function Products() {
   const response = await fetch(
     "https://ecommerce.routemisr.com/api/v1/products"
@@ -19,7 +19,7 @@ export default async function Products() {
   // console.log(products[0]);
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 my-20">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 my-10 mx-10 xl:mx-0">
         {products.map((product) => (
           <div key={product._id}>
             <Card>
@@ -51,7 +51,7 @@ export default async function Products() {
                   </p>
                 </CardContent>
               </Link>
-              <AddToCardt />
+              <AddToCart productId={product._id} />
             </Card>
           </div>
         ))}

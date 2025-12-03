@@ -15,10 +15,10 @@ export default function Home() {
             customer service.
           </p>
           <div className="mt-10">
-            <Button className="px-8 py-6 me-5">
+            <Button className="px-8 py-6 me-5 cursor-pointer ">
               <Link href={"/products"}>Shoping Now</Link>
             </Button>
-            <Button className="px-8 py-6 bg-transparent border-2 text-black hover:bg-transparent">
+            <Button className="px-8 py-6 bg-transparent border-2 text-black hover:bg-transparent cursor-pointer ">
               Browse Categories
             </Button>
           </div>

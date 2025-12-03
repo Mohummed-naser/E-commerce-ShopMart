@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -16,14 +17,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import Link from "next/link";
-import { ShoppingCartIcon, UserIcon } from "lucide-react";
+import { Loader, ShoppingCartIcon, UserIcon } from "lucide-react";
+import { createContext } from "vm";
+import { CartContext } from "../context/CartContext";
 export default function Navbar() {
+  const { cartData, isLoading } = useContext(CartContext);
   return (
     <>
-      <nav className="bg-amber-50 drop-shadow-sm text-2xl font-semibold py-3">
+      <nav className="bg-inherit sticky top-0 px-5 py-3 drop-shadow-sm text-2xl font-semibold">
         <div className="container mx-auto">
-          <div className="flex items-center justify-between px-4">
-            <Link href={"/"} className="outline-0">
+          <div className="flex items-center justify-between">
+            <Link href={"/"} className="outline-0 font-bold">
               ShopMark
             </Link>
             <NavigationMenu>
@@ -64,11 +68,15 @@ export default function Navbar() {
                   </Link>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <div className="relative">
-                <Link href={"/card"} className="outline-0">
+              <div className="">
+                <Link href={"/phoppingCart"} className="outline-0 relative">
                   <ShoppingCartIcon className="cursor-pointer" />
-                  <Badge className="absolute -top-3 -end-3 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums">
-                    0
+                  <Badge className="absolute -top-3 -end-3 h-5 min-w-5 rounded-full px-1 font-mono">
+                    {isLoading ? (
+                      <Loader className="animate-spin" />
+                    ) : (
+                      cartData?.numOfCartItems
+                    )}
                   </Badge>
                 </Link>
               </div>

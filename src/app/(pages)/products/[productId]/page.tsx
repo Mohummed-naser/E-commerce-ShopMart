@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import MyIconStar from "@/components/myIconStar/myIconStar";
 import Carouesl from "@/components/caroueslCom/Carouesl";
-import AddToCardt from "@/components/addToCardt/addToCardt";
+import AddToCart from "@/components/addToCart/addToCardt";
 export default async function ProductDetails({ params }: { params: Params }) {
   let { productId } = await params;
   // console.log(await params);
@@ -21,7 +21,7 @@ export default async function ProductDetails({ params }: { params: Params }) {
   // console.log(product);
   return (
     <>
-      <Card className="grid md:grid-cols-2 items-center w-3/4 mx-auto my-20">
+      <Card className="grid md:grid-cols-2 items-center w-3/4 mx-auto my-10">
         <div className="p-3">
           <Carouesl images={product.images} altContent={product.title} />
         </div>
@@ -45,7 +45,7 @@ export default async function ProductDetails({ params }: { params: Params }) {
               <p className="font-bold">Quantity: {product.quantity}</p>
             </div>
           </CardContent>
-          <AddToCardt />
+          <AddToCart productId={product._id} />
         </div>
       </Card>
     </>
