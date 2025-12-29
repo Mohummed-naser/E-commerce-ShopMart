@@ -10,6 +10,7 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import CheckOut from "@/components/checkOut/CheckOut";
+import { useSession } from "next-auth/react";
 
 export default function shoppingCart() {
   const { cartData, isLoading, getCart, setCartData } = useContext(CartContext);
@@ -19,6 +20,9 @@ export default function shoppingCart() {
   const [btnLoading, setBtnLoading] = useState(false);
   const [isShopping, setIsShopping] = useState(false);
   const router = useRouter();
+  const { data: session } = useSession();
+  const token = session?.user?.token;
+
   useEffect(() => {
     if (
       typeof cartData?.data.products[0]?.product == "string" ||
@@ -27,17 +31,17 @@ export default function shoppingCart() {
       getCart();
     }
   }, [cartData, getCart]);
+
+ 
   //method deletItem
   async function removeCartItem(productId: string) {
-    
     setRemovingId(productId);
     const response = await fetch(
       `https://ecommerce.routemisr.com/api/v1/cart/` + productId,
       {
         method: "DELETE",
         headers: {
-          token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5M2VhMWEwMjAzN2YwZDI5MDQ1MTdmOCIsIm5hbWUiOiJtb2hhbWVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjU3MTIzMTksImV4cCI6MTc3MzQ4ODMxOX0.3A9YGhhLjAVk-WJLlCZQu7_9QZcqN0CKJJnLHrZQ0EA",
+          token: token!,
         },
       }
     );
@@ -49,6 +53,7 @@ export default function shoppingCart() {
     }
     setRemovingId(null);
   }
+
   //method udateItem
   async function updateCartItem(productId: string, count: number) {
     if (count == 0) {
@@ -61,8 +66,7 @@ export default function shoppingCart() {
         method: "PUT",
         body: JSON.stringify({ count }),
         headers: {
-          token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5M2VhMWEwMjAzN2YwZDI5MDQ1MTdmOCIsIm5hbWUiOiJtb2hhbWVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjU3MTIzMTksImV4cCI6MTc3MzQ4ODMxOX0.3A9YGhhLjAVk-WJLlCZQu7_9QZcqN0CKJJnLHrZQ0EA",
+          token: token!,
           "content-type": "application/json", // for row json,
         },
       }
@@ -75,6 +79,7 @@ export default function shoppingCart() {
     }
     setUpdateId(null);
   }
+
   //method udateItem
   async function clearCard() {
     setIsClearing(true);
@@ -84,8 +89,7 @@ export default function shoppingCart() {
       {
         method: "DELETE",
         headers: {
-          token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5M2VhMWEwMjAzN2YwZDI5MDQ1MTdmOCIsIm5hbWUiOiJtb2hhbWVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjU3MTIzMTksImV4cCI6MTc3MzQ4ODMxOX0.3A9YGhhLjAVk-WJLlCZQu7_9QZcqN0CKJJnLHrZQ0EA",
+          token: token!,
         },
       }
     );

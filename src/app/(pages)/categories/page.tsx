@@ -18,6 +18,7 @@ export default async function Categories() {
   // console.log(category[0]._id);
   return (
     <>
+      
       <div className="mt-10 text-3xl">
         <h2>Categories</h2>
       </div>

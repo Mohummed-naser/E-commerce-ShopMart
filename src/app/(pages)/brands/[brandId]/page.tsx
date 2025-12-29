@@ -64,8 +64,8 @@ export default async function BrandDetails({ params }: { params: Params }) {
                   Price: <span className="font-bold">{product.price}</span> EGP
                 </p>
               </CardContent>
-              <AddToCart productId={product._id} />
             </Link>
+            <AddToCart productId={product._id} />
           </Card>
         ))}
       </div>

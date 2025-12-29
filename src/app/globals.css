@@ -116,26 +116,27 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    h1 {
-      @apply text-2xl font-semibold;
-    }
-    h2 {
-      @apply text-xl font-medium;
-    }
   }
+
   body {
     @apply bg-background text-foreground;
   }
+  h1 {
+    @apply text-2xl font-semibold;
+  }
+
+  h2 {
+    @apply text-xl font-medium;
+  }
 }
 
-/* إخفاء الأسهم في متصفح كروم وسفاري */
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* إخفاء الأسهم في Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }

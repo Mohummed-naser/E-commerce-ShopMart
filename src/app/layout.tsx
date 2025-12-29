@@ -38,8 +38,8 @@ export default function RootLayout({
             <Navbar />
             <div className="container mx-auto">
               {children}
-              <Toaster />
             </div>
+              <Toaster />
             <Footer />
           </CartContextProvider>
         </MySessionProvider>

@@ -13,10 +13,13 @@ import { Button } from "../ui/button";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Input } from "../ui/input";
+import { useSession } from "next-auth/react";
 export default function CheckOut({ cartId }: { cartId: string }) {
   let detailsInput = useRef<HTMLInputElement | null>(null);
   let phoneInput = useRef<HTMLInputElement | null>(null);
   let cityInput = useRef<HTMLInputElement | null>(null);
+  const { data: session } = useSession();
+  const token = session?.user?.token;
 
   //method checkOut
   async function checkOutSession() {
@@ -31,8 +34,7 @@ export default function CheckOut({ cartId }: { cartId: string }) {
         method: "POST",
         body: JSON.stringify({ shippingAddress }),
         headers: {
-          token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5M2VhMWEwMjAzN2YwZDI5MDQ1MTdmOCIsIm5hbWUiOiJtb2hhbWVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjU3MTIzMTksImV4cCI6MTc3MzQ4ODMxOX0.3A9YGhhLjAVk-WJLlCZQu7_9QZcqN0CKJJnLHrZQ0EA",
+          token:token!,
         },
       }
     );

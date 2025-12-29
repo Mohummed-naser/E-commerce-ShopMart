@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -21,93 +21,145 @@ import { Loader, ShoppingCartIcon, UserIcon } from "lucide-react";
 import { createContext } from "vm";
 import { CartContext } from "../context/CartContext";
 import { signOut, useSession } from "next-auth/react";
+import { Menu, X } from "lucide-react";
+
 export default function Navbar() {
   const session = useSession();
   // console.log(session);
-
   const { cartData, isLoading } = useContext(CartContext);
+  const [open, setOpen] = useState(false);
+
   return (
     <>
-      <nav className="bg-inherit fiexd top-0 px-5 py-3 drop-shadow text-2xl font-semibold z-1">
+      <nav className="bg-inherit sticky top-0  px-5 py-3 drop-shadow z-50">
         <div className="container mx-auto">
           <div className="flex items-center justify-between">
-            <Link href={"/"} className="outline-0 font-bold">
-              ShopMark
-            </Link>
-            <NavigationMenu>
-              <NavigationMenuList>
+            {/* Logo + Mobile Button */}
+            <div className="flex items-center gap-3">
+              <button className="lg:hidden" onClick={() => setOpen(!open)}>
+                {open ? <X size={28} /> : <Menu size={28} />}
+              </button>
+
+              <Link href="/" className="font-bold text-2xl">
+                ShopMark
+              </Link>
+            </div>
+
+            {/* Desktop Menu */}
+            <NavigationMenu className="hidden lg:flex">
+              <NavigationMenuList className="flex gap-6">
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link href="/products">Product</Link>
+                    <Link href="/products">Products</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
+
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link href="/brands">Brands</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
+
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link href="/categories">Categories</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link href="/subcategories">Sub categories</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            <div className="flex items-center gap-2">
-              {session.status == "authenticated" && (
-                <h6 className="text-[20px]">{session.data.user.name}</h6>
+
+            {/* Right Icons */}
+            <div className="flex items-center gap-3">
+              {session.status === "authenticated" && (
+                <span className="hidden md:block text-sm">
+                  Hi, {session.data.user.name}
+                </span>
               )}
+
               <DropdownMenu>
-                <DropdownMenuTrigger className="outline-0">
-                  <UserIcon className=" cursor-pointer" />
+                <DropdownMenuTrigger className="outline-none">
+                  <UserIcon className="cursor-pointer" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  {session.status == "authenticated" ? (
+                <DropdownMenuContent align="end">
+                  {session.status === "authenticated" ? (
                     <>
-                      <Link href={"/profile"}>
-                        <DropdownMenuItem>profile</DropdownMenuItem>
-                      </Link>
-                      <Link href={"/login"}>
-                        <DropdownMenuItem onClick={() => {
-                          // signOut() is a built-in method in NextAuth
-                          signOut({
-                            callbackUrl:"/"
-                          });
-                        }}>
-                          Logout
-                        </DropdownMenuItem>
-                      </Link>
+                      <DropdownMenuItem asChild>
+                        <Link className="cursor-pointer" href="/profile">
+                          Profile
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link className="cursor-pointer" href="/wishlist">
+                          Wishlist
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link className="cursor-pointer" href="/allorders">
+                          All orders
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link className="cursor-pointer" href="/profile/change-password">
+                          Change password
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        className="text-red-500 cursor-pointer"
+                        onClick={() => signOut({ callbackUrl: "/" })}
+                      >
+                        Logout
+                      </DropdownMenuItem>
                     </>
                   ) : (
                     <>
-                      <Link href={"/login"}>
-                        <DropdownMenuItem>Login</DropdownMenuItem>
-                      </Link>
-                      <Link href={"/register"}>
-                        <DropdownMenuItem>Register</DropdownMenuItem>
-                      </Link>
+                      <DropdownMenuItem asChild>
+                        <Link className="cursor-pointer" href="/login">
+                          Login
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/register">Register</Link>
+                      </DropdownMenuItem>
                     </>
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>
-              {session.status == "authenticated" && (
-                <div className="">
-                  <Link href={"/shoppingCart"} className="outline-0 relative">
-                    <ShoppingCartIcon className="cursor-pointer" />
-                    <Badge className="absolute -top-3 -end-3 h-5 min-w-5 rounded-full px-1 font-mono">
-                      {isLoading ? (
-                        <Loader className="animate-spin" />
-                      ) : (
-                        cartData?.numOfCartItems
-                      )}
-                    </Badge>
-                  </Link>
-                </div>
+
+              {session.status === "authenticated" && (
+                <Link href="/shoppingCart" className="relative">
+                  <ShoppingCartIcon />
+                  <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center">
+                    {isLoading ? (
+                      <Loader size={12} className="animate-spin" />
+                    ) : (
+                      cartData?.numOfCartItems || 0
+                    )}
+                  </Badge>
+                </Link>
               )}
             </div>
           </div>
+
+          {/* Mobile Menu */}
+          {open && (
+            <div className="lg:hidden mt-4 flex flex-col gap-4 text-lg">
+              <Link href="/products" onClick={() => setOpen(false)}>
+                Products
+              </Link>
+              <Link href="/brands" onClick={() => setOpen(false)}>
+                Brands
+              </Link>
+              <Link href="/categories" onClick={() => setOpen(false)}>
+                Categories
+              </Link>
+            </div>
+          )}
         </div>
       </nav>
     </>

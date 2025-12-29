@@ -19,7 +19,7 @@ export default function Home() {
               <Link href={"/products"}>Shoping Now</Link>
             </Button>
             <Button className="px-8 py-6 bg-transparent border-2 text-black hover:bg-transparent cursor-pointer ">
-              Browse Categories
+              <Link href={"/categories"}>Browse Categories</Link>
             </Button>
           </div>
         </div>

@@ -42,12 +42,14 @@ const handler = NextAuth({
       // user ==> user,token
       if (user) {
         (token.user = user.user), (token.token = user.token);
+        // token.accessToken = (user as any).token;
       }
       return token; // token {user,token}
     },
     session: ({ session, token }) => {
       //token ==> next auth
       session.user = token.user;
+      session.user.token = token.token;
       return session;
     },
   },
@@ -55,7 +57,7 @@ const handler = NextAuth({
     signIn: "/login",
     error: "/login",
   },
-  secret:process.env.NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET,
 });
 
 export { handler as GET, handler as POST };

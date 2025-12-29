@@ -5,3 +5,8 @@ export * from './subcategory'
 export * from './cart'
 export * from './order'
 export * from './login'
+export * from './forgotPass'
+export * from './registerForm'
+export * from './wishlist'
+export * from "./subcategories";
+export * from "./addressI";

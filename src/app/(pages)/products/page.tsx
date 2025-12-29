@@ -1,5 +1,5 @@
 import React from "react";
-import { ProductI } from "./../../../components/interface/product";
+import { ProductI } from "../../../components/interface/product";
 import {
   Card,
   CardContent,
@@ -19,7 +19,7 @@ export default async function Products() {
   // console.log(products[0]);
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 my-10 mx-10 xl:mx-0">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 py-6">
         {products.map((product) => (
           <div key={product._id}>
             <Card>
